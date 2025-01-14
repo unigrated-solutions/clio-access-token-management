@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+</head>
+<body>
+    <h1>Token Management</h1>
+    <div class="container">
+        <!-- Section 1 -->
+        <!-- Form to set environment variables -->
+        <div id="envForm" style="display: {{ 'block' if missing_env else 'none' }};">
+            <h2>Set Required Variables</h2>
+            <form action="/set_env" method="post">
+                <label for="clientId">Client ID:</label>
+                <input type="text" id="clientId" name="client_id" required>
+
+                <label for="clientSecret">Client Secret:</label>
+                <input type="text" id="clientSecret" name="client_secret" required>
+                
+                <label for="appURI">Local App URI:</label>
+                <input type="text" id="appURI" name="redirect_uri" required>
+
+                <button type="submit">Save and Continue</button>
+            </form>
+            <p>If you don't have your Client ID and Client Secret, visit the Clio Developers portal:</p>
+            <button onclick="window.open('https://developers.clio.com/', '_blank')">Get Credentials</button>
+        </div>
+
+        <!-- Form to update environment variables -->
+        <div id="updateEnvForm" style="display: {{ 'none' if missing_env else 'block' }};">
+            <h2>Update Variables</h2>
+            <form action="/set_env" method="post">
+                <label for="updateClientId">Client ID:</label>
+                <input type="text" id="updateClientId" name="client_id" value="{{ client_id }}" disabled>
+
+                <label for="updateClientSecret">Client Secret:</label>
+                <input type="text" id="updateClientSecret" name="client_secret" value="{{ client_secret }}" disabled>
+
+                <label for="updateAppURI">Redirect Uri:</label>
+                <input type="text" id="updateAppURI" name="redirect_uri" value="{{ redirect_uri }}" disabled>
+
+                <div>
+                    <button type="button" id="editButton" onclick="toggleEdit()">Edit</button>
+                    <button type="submit" id="updateButton" disabled>Update</button>
+                </div>
+            </form>
+            <p>If you don't have your Client ID and Client Secret, visit the Clio Developers portal:</p>
+            <button onclick="window.open('https://developers.clio.com/', '_blank')">Get Credentials</button>
+        </div>
+
+         <!-- Section: Load Token -->
+         <div>
+            <h2>Authorize or Load Token</h2>
+            <button onclick="window.location.href='/authorize'">Authorize New Token</button>
+            <label for="tokenFile">Load Token from File:</label>
+            <input type="file" id="tokenFile" accept=".json" onchange="loadTokenFile(event)">
+        </div>
+
+        <!-- Section: Token Details -->
+        <fieldset id="tokenDetails">
+            <legend>Token Details</legend>
+            <label for="tokenType">Token Type:</label>
+            <input type="text" id="tokenType" readonly>
+
+            <label for="accessToken">Access Token:</label>
+            <input type="text" id="accessToken" readonly>
+
+            <label for="expiresIn">Expires In:</label>
+            <input type="text" id="expiresIn" readonly>
+
+            <label for="refreshToken">Refresh Token:</label>
+            <input type="text" id="refreshToken" readonly>
+
+            <div>
+                <button id="renewButton" onclick="renewToken()" disabled>Renew Token</button>
+                <button id="deauthorizeButton" onclick="deauthorizeToken()" disabled>Deauthorize Token</button>
+            </div>
+        </fieldset>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

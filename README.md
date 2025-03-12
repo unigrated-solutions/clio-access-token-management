@@ -1,113 +1,83 @@
+# Clio Access Token Manager
 
-# OAuth Token Management Application
+This is a **web-based application** built with [NiceGUI](https://github.com/zauberzeug/nicegui) to manage API gateways and **generate, store, copy, and deauthorize access tokens**.
 
-This application provides a web interface to manage OAuth tokens for an API. Users can create new tokens, renew existing tokens, and deauthorize them through a user-friendly interface.
+## 3/12/25 
 
----
+- **New Version Released**: Previous version moved to flask_version/
+- **Cleaner Interface**: Single page application that can be easily added to
+- **Simple Execution**: All the core functionality is contained in app.py
 
-## Features
+## 🚀 Features
 
-- **Create Tokens**: Start the OAuth authorization process to obtain new access and refresh tokens.
-- **Renew Tokens**: Use a refresh token to generate a new access token when the existing one expires.
-- **Deauthorize Tokens**: Revoke an access token to disable its authorization.
+- **Manage API Gateways**: Add, edit, and remove API gateway credentials.
+- **OAuth2 Authentication**: Securely obtain access tokens via Clio’s authorization flow.
+- **Access Token Management**:
+  - View and manage stored tokens.
+  - **Copy tokens to clipboard** for quick usage.
+  - **Deauthorize tokens before deletion** to maintain security.
+- **Persistent Storage**: Uses NiceGUI's built-in storage to keep API keys and tokens.
 
----
+## 📦 Installation
 
-## Prerequisites
-
-Before running the application, ensure you have the following installed:
-
-- **Python**: Version 3.7 or higher
-- **pip**: Python package manager
-
----
-
-## Setup and Usage
-
-Follow these steps to set up, configure, and run the application:
-
-### Step 1: Clone the Repository
-Clone the repository to your local machine:
-```bash
-git clone <repository-url>
-cd <repository-directory>
+### **1️⃣ Clone the Repository**
+```sh
+git clone https://github.com/yourusername/clio-access-token-manager.git
+cd clio-access-token-manager
 ```
 
-### Step 2: Set Up the Environment
-1. **Create a Python Virtual Environment** (Optional but Recommended):
-   ```bash
-   python -m venv venv
-   # Activate the environment
-   # On macOS/Linux:
-   source venv/bin/activate
-   # On Windows:
-   venv\Scripts\activate
-   ```
+### **2️⃣ Create a Virtual Environment (Optional)**
+```sh
+python3 -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+```
 
-2. **Install Dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+### **3️⃣ Install Dependencies**
+```sh
+pip install nicegui httpx
+```
 
-3. **Rename `.env.example` to `.env`**:
+### **4️⃣ Run the Application**
+```sh
+python app.py
+```
 
----
+The app should be accessible at **[http://127.0.0.1:8080](http://127.0.0.1:8080)**.
 
-### Step 3: Run the Application
-1. **Set Environment Variables**:
-   ```bash
-   export FLASK_APP=app.py  # On Windows: set FLASK_APP=main.py
-   export FLASK_ENV=development  # On Windows: set FLASK_ENV=development
-   ```
+## Security Notice
 
-2. **Start the Flask Server**:
-   ```bash
-   flask run
-   ```
-   The application will start and be accessible at `http://127.0.0.1:5000`.
+- **Access Tokens**
+   - Tokens are not encrypted and are stored in .nicegui/storage-general.json
+   - Refresh tokens are NOT stored for this reason
+   - Tokens are valid for 30 days so deauthorize them when you're done 
+   
+## 🔑 OAuth2 Setup
+1. Register your application with **Clio** to obtain:
+   - `client_id`
+   - `client_secret`
+   - `redirect_uri` (must match **http://127.0.0.1:8080/callback**)
+   
+2. Once set up, use the **"Create Access Token"** button to initiate the authorization process.
 
----
+## 🔄 How to Use
+1. **Add API Gateways**: Input `Name`, `Client ID`, and `Client Secret`.
+2. **Generate Tokens**:
+   - Select a gateway and click **"Create Access Token"**.
+   - The app will redirect to Clio’s authentication page.
+   - Upon successful authorization, the token is stored in the **Access Tokens** page.
+3. **Manage Tokens**:
+   - **Copy Token**: Click **"Copy Token"** to copy it to the clipboard.
+   - **Export Token**: Click **"Export Token"** to download it as a JSON file.
+   - **Deauthorize Token**: Click **"Deauthorize Token"** to remove it from Clio before deleting.
 
-### Step 4: Using the Application
+## 🛠️ Built With
+- **[NiceGUI](https://github.com/zauberzeug/nicegui)** - The UI framework for building modern web apps in Python.
+- **FastAPI** - Provides backend API routes for OAuth2 handling.
+- **httpx** - Used for making async HTTP requests.
 
-#### **1. Create a New Token**
-- Visit the root route (`http://127.0.0.1:5000/`).
-- If required variables (`CLIENT_ID` and `CLIENT_SECRET`) are missing, you will be prompted to set them via a form.
-- Click the "Create New Token" button to start the OAuth authorization process.
-- Follow the redirection to the authorization provider, authorize the application, and return to the callback page.
+## 📜 License
+This project is licensed under the **MIT License**.
 
-#### **2. Renew a Token**
-- If a refresh token is available, you can use it to generate a new access token.
-- Click the "Renew Token" button on the token management interface.
-
-#### **3. Deauthorize a Token**
-- To revoke an access token, click the "Deauthorize Token" button.
-- The application will send a request to the deauthorization endpoint specified in the `.env` file.
-
----
-
-### Troubleshooting
-
-1. **Environment Variables Not Loading**:
-   - Ensure the `.env` file is in the root directory.
-   - Ensure the `python-dotenv` package is installed.
-
-2. **Server Not Running**:
-   - Verify Python and Flask are correctly installed.
-   - Use `flask --debug run` to check for additional errors.
-
-3. **Authorization Errors**:
-   - Verify the `AUTH_BASE_URL`, `TOKEN_URL`, and `DEAUTHORIZE_URL` are correct.
-   - Ensure the `CLIENT_ID` and `CLIENT_SECRET` are valid.
-
----
-
-## Contributing
-
-Feel free to submit issues and pull requests for improvements or new features.
-
----
-
-## License
-
-This project is licensed under the MIT License.
+## 🙌 Credits
+This app is built using **[NiceGUI](https://nicegui.io/)**.  
+Special thanks to the [NiceGUI developers](https://github.com/zauberzeug/nicegui) for creating an amazing Python-based UI framework.

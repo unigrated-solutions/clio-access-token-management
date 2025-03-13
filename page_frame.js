@@ -1,3 +1,5 @@
+// https://github.com/zauberzeug/nicegui/blob/main/examples/single_page_app/router_frame.js
+
 export default {
     template: "<div><slot></slot></div>",
     mounted() {

@@ -120,6 +120,8 @@ async def callback(request: Request):
     else:
         return "Error"
 
+# Built on the single page application example
+# https://github.com/zauberzeug/nicegui/blob/main/examples/single_page_app/main.py
 
 @ui.page('/')  # normal index page (e.g. the entry point of the app)
 @ui.page('/{_:path}')  # all other pages will be handled by the router but must be registered to also show the SPA index page

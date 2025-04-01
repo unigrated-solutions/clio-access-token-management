@@ -1,6 +1,6 @@
 # Clio Access Token Manager
 
-This is a **web-based application** built with [NiceGUI](https://github.com/zauberzeug/nicegui) to manage API gateways and **generate, store, copy, and deauthorize access tokens**.
+This is a **locally run web-based application** built with [NiceGUI](https://github.com/zauberzeug/nicegui) to manage API gateways and **generate, store, copy, and deauthorize access tokens**.
 
 ## 3/12/25 
 
